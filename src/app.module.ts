@@ -5,9 +5,11 @@ import { CatsService } from './cats/cats.service';
 import { UserModule } from './user/user.module';
 import { User } from './user/user.entity';
 import { logger } from './middleware/logger.middleware';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
