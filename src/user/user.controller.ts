@@ -1,11 +1,15 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    @Inject('USER_SERVICE') private client: ClientProxy,
+  ) {}
 
   @Get()
   async findAll(): Promise<User[]> {
@@ -14,6 +18,8 @@ export class UserController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+    const newUser = await this.userService.create(createUserDto);
+    this.client.emit('new-user', newUser);
+    return newUser;
   }
 }

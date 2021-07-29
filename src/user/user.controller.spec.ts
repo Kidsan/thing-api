@@ -20,6 +20,10 @@ describe('UserController', () => {
           provide: getRepositoryToken(User),
           useValue: mockRepository,
         },
+        {
+          provide: 'USER_SERVICE',
+          useValue: mockRepository,
+        },
       ],
     }).compile();
 
