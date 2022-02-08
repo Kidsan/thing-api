@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thing-api
+  namespace: thing
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: thing-api

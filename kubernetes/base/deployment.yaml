@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thing-api
+  namespace: thing
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: thing-api
+  template:
+    metadata:
+      labels:
+        app: thing-api
+    spec:
+      containers:
+        - name: thing-api
+          image: kidsan/thing-api:latest
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: thing-api
